@@ -17,3 +17,4 @@ def read_excel(path_file: str) -> list[dict]:
         axis=1,
     ).tolist()
     return result
+print()
