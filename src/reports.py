@@ -48,7 +48,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
             if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) == float:
                 continue
             elif date_start <= datetime.datetime.strptime(str(i["Дата платежа"]),
-                                                        '%d.%m.%Y') <= date_start + datetime.timedelta(
+                                                          '%d.%m.%Y') <= date_start + datetime.timedelta(
                 days=90):
                 final_list.append(i['Сумма платежа'])
         return final_list
@@ -74,6 +74,4 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
         return final_list
 
 
-df = read_excel("../data/operations.xlsx")
-if __name__ == "__main__":
-    print(spending_by_category(df))
+

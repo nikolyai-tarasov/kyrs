@@ -2,9 +2,7 @@ import pandas as pd
 
 
 def read_excel(path_file: str) -> list[dict]:
-    """
-    Функция читает .xlsx файл и возвращает список словарей
-    """
+    """Функция читает .xlsx файл и возвращает список словарей"""
     df = pd.read_excel(path_file)
     result = df.apply(
         lambda row: {
@@ -13,7 +11,8 @@ def read_excel(path_file: str) -> list[dict]:
             "Сумма платежа": row["Сумма платежа"],
             "Валюта платежа": row["Валюта платежа"],
             "Категория": row["Категория"],
-            "Описание": row["Описание"]
+            "Описание": row["Описание"],
+            "Номер карты": row["Номер карты"]
         },
         axis=1,
     ).tolist()
