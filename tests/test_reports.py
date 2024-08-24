@@ -1,6 +1,7 @@
 import pytest
-from src.reports import spending_by_category
+
 from src.read_excel import read_excel
+from src.reports import spending_by_category
 
 result_read = read_excel("../data/operations.xlsx")
 result_spend = spending_by_category(result_read, "Переводы", date="31.12.2021")

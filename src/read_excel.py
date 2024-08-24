@@ -1,6 +1,6 @@
 import pandas as pd
 
-
+import os
 def read_excel(path_file: str) -> list[dict]:
     """Функция читает .xlsx файл и возвращает список словарей"""
     df = pd.read_excel(path_file)
@@ -12,7 +12,7 @@ def read_excel(path_file: str) -> list[dict]:
             "Валюта платежа": row["Валюта платежа"],
             "Категория": row["Категория"],
             "Описание": row["Описание"],
-            "Номер карты": row["Номер карты"]
+            "Номер карты": row["Номер карты"],
         },
         axis=1,
     ).tolist()

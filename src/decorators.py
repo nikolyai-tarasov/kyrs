@@ -1,5 +1,5 @@
-from typing import Callable, Any
 import json
+from typing import Any, Callable
 
 
 def decorator_spending_by_category(func: Callable) -> Callable:

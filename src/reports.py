@@ -1,11 +1,11 @@
-from turtle import pd
-from typing import Optional, List, Any, Callable
 import datetime
-import pandas as pd
-from src.read_excel import read_excel
 import json
-from src.decorators import decorator_spending_by_category
 import logging
+from typing import Any, Callable, Optional
+
+import pandas as pd
+
+from src.decorators import decorator_spending_by_category
 
 logger = logging.getLogger("report.log")
 file_handler = logging.FileHandler("report.log", "w")
@@ -45,12 +45,14 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 list_by_category.append(i)
         logger.info("Фильтрация на пропущенные даты")
         for i in list_by_category:
-            if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) == float:
+            if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) is float:
                 continue
-            elif date_start <= datetime.datetime.strptime(str(i["Дата платежа"]),
-                                                          '%d.%m.%Y') <= date_start + datetime.timedelta(
-                days=90):
-                final_list.append(i['Сумма платежа'])
+            elif (
+                date_start
+                <= datetime.datetime.strptime(str(i["Дата платежа"]), "%d.%m.%Y")
+                <= date_start + datetime.timedelta(days=90)
+            ):
+                final_list.append(i["Сумма платежа"])
         return final_list
     else:
         logger.info("Вариант обработки с введенной датой")
@@ -63,15 +65,12 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 list_by_category.append(i)
         logger.info("Фильтрация на пропущенные даты")
         for i in list_by_category:
-            if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) == float:
+            if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) is float:
                 continue
             else:
                 day_, month_, year_ = i["Дата платежа"].split(".")
                 date_obj_ = datetime.datetime(int(year), int(month), int(day))
                 if date_start <= date_obj_ <= date_start + datetime.timedelta(days=90):
-                    final_list.append(i['Сумма платежа'])
+                    final_list.append(i["Сумма платежа"])
                     logger.info("Формирование списка по тратам")
         return final_list
-
-
-
