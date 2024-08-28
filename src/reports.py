@@ -36,14 +36,13 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     logger.info("Начало работы")
     list_by_category = []
     final_list = []
+
     if date is None:
-        logger.info("Вариант обработки с настоящей датой")
+        logger.info("Обработка условия на отсутствие")
         date_start = datetime.datetime.now() - datetime.timedelta(days=90)
-        logger.info("Формирование списка по категории")
         for i in transactions:
             if i["Категория"] == category:
                 list_by_category.append(i)
-        logger.info("Фильтрация на пропущенные даты")
         for i in list_by_category:
             if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) is float:
                 continue
@@ -55,15 +54,15 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 final_list.append(i["Сумма платежа"])
         return final_list
     else:
-        logger.info("Вариант обработки с введенной датой")
+        logger.info("Обработка условия на создание")
         day, month, year = date.split(".")
         date_obj = datetime.datetime(int(year), int(month), int(day))
         date_start = date_obj - datetime.timedelta(days=90)
-        logger.info("Формирование списка по категории")
+
         for i in transactions:
             if i["Категория"] == category:
                 list_by_category.append(i)
-        logger.info("Фильтрация на пропущенные даты")
+
         for i in list_by_category:
             if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) is float:
                 continue
@@ -72,5 +71,5 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 date_obj_ = datetime.datetime(int(year), int(month), int(day))
                 if date_start <= date_obj_ <= date_start + datetime.timedelta(days=90):
                     final_list.append(i["Сумма платежа"])
-                    logger.info("Формирование списка по тратам")
+        logger.info("Завершение работы функции")
         return final_list

@@ -59,6 +59,7 @@ def test_top_five_transaction_emp_att():
 
 @patch('requests.get')
 def test_currency_rates(mock_get):
+    """Тестирование функции вывода курса валют"""
     mock_response_usd = Mock()
     mock_response_usd.json.return_value = {"conversion_rates": {"RUB": 91.42}}
     mock_response_eur = Mock()
