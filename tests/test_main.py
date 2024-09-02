@@ -1,9 +1,9 @@
 from src.main import main
 from unittest.mock import Mock, patch
 
-
 @patch('requests.get')
 def test_main(mock_get):
+   
     mock_get.return_value.json.return_value = {
         "greeting": "Добрый день",
         "cards": [
@@ -58,10 +58,9 @@ def test_main(mock_get):
                 "stock": "AAPL",
                 "price": 228.03
             }]}
-    res = main("2021.11.30", "data/operations.xlsx", ["AAPL"],
+    res = main("2021.11.30", "../data/operations.xlsx", ["AAPL"],
                ["USD", "EUR"])
-
-    assert res == {
+    ext = {
         "greeting": "Добрый день",
         "cards": [
             {
@@ -115,4 +114,6 @@ def test_main(mock_get):
                 "stock": "AAPL",
                 "price": 228.03
             }]}
-    pass
+
+    assert res == ext
+
