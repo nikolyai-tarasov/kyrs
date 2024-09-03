@@ -38,5 +38,3 @@ def main(date: str, file_path: str, stocks: list, currency: list):
     logger.info("Завершение работы главной функции (main)")
     return date_json
 
-print(main("2021.11.30", "../data/operations.xlsx", ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"],
-                ["USD", "EUR"]))

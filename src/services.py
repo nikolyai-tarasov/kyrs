@@ -1,10 +1,19 @@
+import logging
 from src.decorators import decorator_search
+
+logger = logging.getLogger("services.log")
+file_handler = logging.FileHandler("services.log", "w")
+file_formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 @decorator_search
 def simple_search(my_list: list, string_search: str) -> list:
     """Функция поиска по переданной строке"""
     result = []
+    logger.info("Начало работы функции (simple_search)")
     for i in my_list:
         if string_search == '':
             return result
@@ -17,5 +26,6 @@ def simple_search(my_list: list, string_search: str) -> list:
             continue
         elif string_search in i["Описание"] or string_search in i["Категория"]:
             result.append(i)
+    logger.info("Конец работы функции (simple_search)")
 
     return result
