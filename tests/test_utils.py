@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from unittest.mock import Mock, patch
 import os
-from src.utils import currency_rates, for_each_card, get_price_stock, greetings, top_five_transaction
-from src.read_excel import read_excel
+from src.utils import currency_rates, for_each_card, get_price_stock, greetings, top_five_transaction,read_excel
+
 
 load_dotenv()
 API_KEY_CUR = os.getenv("API_KEY_CUR")
@@ -61,13 +61,13 @@ def test_top_five_transaction_emp_att():
 def test_currency_rates(mock_get):
     """Тестирование функции вывода курса валют"""
     mock_response_usd = Mock()
-    mock_response_usd.json.return_value = {"conversion_rates": {"RUB": 91.42}}
+    mock_response_usd.json.return_value = {"conversion_rates": {"RUB": 88.34}}
     mock_response_eur = Mock()
-    mock_response_eur.json.return_value = {"conversion_rates": {"RUB": 102.01}}
+    mock_response_eur.json.return_value = {"conversion_rates": {"RUB": 97.8}}
     mock_get.side_effect = [mock_response_usd, mock_response_eur]
 
     result = currency_rates(['USD', 'EUR'])
-    expected = [{"currency": "USD", "rate": 91.42}, {"currency": "EUR", "rate": 102.01}]
+    expected = [{"currency": "USD", "rate": 88.34}, {"currency": "EUR", "rate": 97.8}]
     assert result == expected
 
 

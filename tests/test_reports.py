@@ -1,6 +1,6 @@
 import pytest
 
-from src.read_excel import read_excel
+from src.utils import read_excel
 from src.reports import spending_by_category
 
 result_read = read_excel("../data/operations.xlsx")

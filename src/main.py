@@ -12,12 +12,13 @@ file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
+data_frame = read_excel("../data/operations.xlsx")
 
-def main(date: str, file_path: str, stocks: list, currency: list):
+
+def main(date: str, df_transactions, stocks: list, currency: list):
     """Функция создающая JSON ответ для страницы главная"""
     logger.info("Начало работы главной функции (main)")
-    my_list_trans = read_excel(file_path)
-    final_list = filter_by_date(date, my_list_trans)
+    final_list = filter_by_date(date, df_transactions)
     greeting = greetings()
     cards = for_each_card(final_list)
     top_trans = top_five_transaction(final_list)
@@ -38,3 +39,6 @@ def main(date: str, file_path: str, stocks: list, currency: list):
     logger.info("Завершение работы главной функции (main)")
     return date_json
 
+
+print(main("2021.11.30", data_frame, ["AAPL"],
+           ["USD", "EUR"]))

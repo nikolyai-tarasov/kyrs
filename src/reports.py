@@ -31,7 +31,7 @@ def log_spending_by_category(filename: Any) -> Callable:
 
 
 @decorator_spending_by_category
-def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> list[Any]:
+def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None):
     """Функция возвращающая траты за последние 3 месяца по заданной категории"""
     logger.info("Начало работы")
     list_by_category = []
@@ -47,9 +47,9 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
             if i["Дата платежа"] == "nan" or type(i["Дата платежа"]) is float:
                 continue
             elif (
-                date_start
-                <= datetime.datetime.strptime(str(i["Дата платежа"]), "%d.%m.%Y")
-                <= date_start + datetime.timedelta(days=90)
+                    date_start
+                    <= datetime.datetime.strptime(str(i["Дата платежа"]), "%d.%m.%Y")
+                    <= date_start + datetime.timedelta(days=90)
             ):
                 final_list.append(i["Сумма платежа"])
         return final_list
@@ -72,4 +72,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
                 if date_start <= date_obj_ <= date_start + datetime.timedelta(days=90):
                     final_list.append(i["Сумма платежа"])
         logger.info("Завершение работы функции")
-        return final_list
+        data_json = json.dumps(final_list, indent=4, ensure_ascii=False, )
+
+        return data_json
+
