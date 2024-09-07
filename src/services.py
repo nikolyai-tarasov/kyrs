@@ -1,7 +1,7 @@
 import logging
 import json
 from src.decorators import decorator_search
-from src.read_excel import read_excel
+
 
 logger = logging.getLogger("services.log")
 file_handler = logging.FileHandler("services.log", "w")
@@ -10,8 +10,7 @@ file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
-my_list = read_excel("../data/operations.xlsx")
-emp = []
+
 
 @decorator_search
 def simple_search(my_list: list, string_search: str):

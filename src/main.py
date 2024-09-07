@@ -1,8 +1,7 @@
 import json
 import logging
-from src.read_excel import read_excel
 
-from src.utils import currency_rates, for_each_card, get_price_stock, greetings, top_five_transaction
+from src.utils import currency_rates, for_each_card, get_price_stock, greetings, top_five_transaction, read_excel
 from src.views import filter_by_date
 
 logger = logging.getLogger("utils.log")
@@ -25,14 +24,15 @@ def main(date: str, df_transactions, stocks: list, currency: list):
     stocks_prices = get_price_stock(stocks)
     currency_r = currency_rates(currency)
     logger.info("Создание JSON ответа")
-    date_json = json.dumps(
-        {
+    result = [{
             "greeting": greeting,
             "cards": cards,
             "top_transactions": top_trans,
             "currency_rates": currency_r,
             "stock_prices": stocks_prices,
-        },
+        }]
+    date_json = json.dumps(
+        result,
         indent=4,
         ensure_ascii=False,
     )
@@ -40,5 +40,3 @@ def main(date: str, df_transactions, stocks: list, currency: list):
     return date_json
 
 
-print(main("2021.11.30", data_frame, ["AAPL"],
-           ["USD", "EUR"]))

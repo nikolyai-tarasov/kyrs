@@ -1,9 +1,11 @@
 import datetime
 import logging
 import os
-
+import pandas as pd
 import requests
 from dotenv import load_dotenv
+import json
+import urllib.request
 
 load_dotenv()
 API_KEY_CUR = os.getenv("API_KEY_CUR")
@@ -16,6 +18,24 @@ file_formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
+
+
+def read_excel(path_file: str) -> list[dict]:
+    """Функция читает .xlsx файл и возвращает список словарей"""
+    df = pd.read_excel(path_file)
+    result = df.apply(
+        lambda row: {
+            "Дата платежа": row["Дата платежа"],
+            "Статус": row["Статус"],
+            "Сумма платежа": row["Сумма платежа"],
+            "Валюта платежа": row["Валюта платежа"],
+            "Категория": row["Категория"],
+            "Описание": row["Описание"],
+            "Номер карты": row["Номер карты"],
+        },
+        axis=1,
+    ).tolist()
+    return result
 
 
 def greetings():
@@ -61,9 +81,10 @@ def currency_rates(currency: list) -> list[dict]:
     result = []
     for i in currency:
         url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{i}"
-        response = requests.get(url)
-        data = response.json()
-        result.append({"currency": i, "rate": round(data["conversion_rates"]["RUB"], 2)})
+        with urllib.request.urlopen(url) as response:
+            body_json = response.read()
+        body_dict = json.loads(body_json)
+        result.append({"currency": i, "rate": round(body_dict["conversion_rates"]["RUB"], 2)})
 
     logger.info("Создание списка словарей для функции - currency_rates")
 
